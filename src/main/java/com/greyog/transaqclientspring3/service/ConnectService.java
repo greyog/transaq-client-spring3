@@ -41,8 +41,8 @@ public class ConnectService {
         var connectCommand = new ConnectCommand();
         connectCommand.login = environment.getProperty("transaq.login");
         connectCommand.password = environment.getProperty("transaq.password");
-        connectCommand.host = "tr1.finam.ru";
-        connectCommand.port = 3900;
+        connectCommand.host = environment.getProperty("transaq.host");
+        connectCommand.port = Integer.parseInt(environment.getProperty("transaq.port"));
         connectCommand.rqdelay = 100;
         connectCommand.session_timeout = 1000;
         connectCommand.request_timeout = 1000;
