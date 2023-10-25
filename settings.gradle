@@ -1,0 +1,3 @@
+rootProject.name = 'transaq-client-spring3'
+include 'grpc-interface'
+
