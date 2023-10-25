@@ -32,8 +32,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'com.vaadin:vaadin-spring-boot-starter'
 //	implementation 'net.devh:grpc-client-spring-boot-starter:2.14.0.RELEASE'
-//	implementation 'io.github.lognet:grpc-client-spring-boot-starter'
-	implementation project(':grpc-interface')
+// https://mvnrepository.com/artifact/io.github.lognet/grpc-spring-boot-starter
+	implementation 'io.github.lognet:grpc-spring-boot-starter:5.1.5'
+//	implementation project(':grpc-interface')
 //	implementation 'org.flywaydb:flyway-core'
 
 	// https://mvnrepository.com/artifact/org.springframework/spring-oxm

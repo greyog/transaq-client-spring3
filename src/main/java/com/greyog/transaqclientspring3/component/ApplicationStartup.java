@@ -14,6 +14,7 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
 
     @Autowired
     private ConnectService connectService;
+
     /**
      * This event is executed as late as conceivably possible to indicate that
      * the application is ready to service requests.
@@ -21,10 +22,12 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
     @SneakyThrows
     @Override
     public void onApplicationEvent(final ApplicationReadyEvent event) {
+        log.info(connectService.initDataFetch());
         log.info(connectService.getLoginResult());
-        while (true) {
-            log.info(connectService.getServerStatus());
-            Thread.sleep(1000);
-        }
+
+//        while (true) {
+//            log.info(connectService.getServerStatus());
+//            Thread.sleep(1000);
+//        }
     }
 }

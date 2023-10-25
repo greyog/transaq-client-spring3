@@ -11,21 +11,30 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Service;
+import transaqConnector.Connect;
+import transaqConnector.ConnectServiceGrpc;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.stream.StreamResult;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.Executor;
 
 @Slf4j
 @Service
 public class ConnectService {
 
-//    @Autowired
-//    private ConnectServiceGrpc.ConnectServiceBlockingStub blockingStub;
+    @Autowired
+    private ConnectServiceGrpc.ConnectServiceBlockingStub blockingStub;
 
     @Autowired
     private Jaxb2Marshaller marshaller;
+
+    @Autowired
+    private Executor taskExecutor;
+
+    @Autowired
+    private MessageProcessor messageProcessor;
 
     public String getLoginCommand() {
         var connectCommand = new ConnectCommand();
@@ -55,12 +64,12 @@ public class ConnectService {
     }
 
     private String getRequestResult(String command) {
-//        Connect.SendCommandRequest request = Connect.SendCommandRequest.newBuilder()
-//                .setMessage(command)
-//                .build();
-//        Connect.SendCommandResponse response = blockingStub.sendCommand(request);
-//        String r = new String(response.toByteArray(), StandardCharsets.UTF_8);
-//        log.info("response: {}", response);
+        Connect.SendCommandRequest request = Connect.SendCommandRequest.newBuilder()
+                .setMessage(command)
+                .build();
+        Connect.SendCommandResponse response = blockingStub.sendCommand(request);
+        String r = new String(response.toByteArray(), StandardCharsets.UTF_8);
+        log.info("response: {}", response);
         return "r";
     }
 
@@ -79,10 +88,6 @@ public class ConnectService {
     private String getServerStatusCommand() {
         return getXMLCommand(new ServerStatusCommand());
     }
-
-    private TaskExecutor taskExecutor;
-
-    private MessageProcessor messageProcessor;
 
     public String initDataFetch() throws Exception {
         taskExecutor.execute(messageProcessor);

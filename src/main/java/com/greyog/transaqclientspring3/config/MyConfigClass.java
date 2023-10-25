@@ -1,10 +1,16 @@
 package com.greyog.transaqclientspring3.config;
 
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import transaqConnector.Connect;
+import transaqConnector.ConnectServiceGrpc;
 
 import java.util.HashMap;
+import java.util.concurrent.Executor;
 
 @Configuration
 public class MyConfigClass {
@@ -22,21 +28,31 @@ public class MyConfigClass {
         return marshaller;
     }
 
-//    @Bean
-//    public ConnectServiceGrpc.ConnectServiceBlockingStub blockingStub() {
-//        // Access a service running on the local machine on port 7777
-//        String target = "localhost:7777";
-//
-//// Create a communication channel to the server, known as a Channel. Channels are thread-safe
-//// and reusable. It is common to create channels at the beginning of your application and reuse
-//// them until the application shuts down.
-//        ManagedChannel channel = ManagedChannelBuilder.forTarget(target)
-//                // Channels are secure by default (via SSL/TLS). For the example we disable TLS to avoid
-//                // needing certificates.
-//                .usePlaintext()
-//                .build();
-//
-//        return ConnectServiceGrpc.newBlockingStub(
-//        );
-//    }
+    @Bean
+    public ConnectServiceGrpc.ConnectServiceBlockingStub blockingStub() {
+        // Access a service running on the local machine on port 7777
+        String target = "localhost:50051";
+
+// Create a communication channel to the server, known as a Channel. Channels are thread-safe
+// and reusable. It is common to create channels at the beginning of your application and reuse
+// them until the application shuts down.
+        ManagedChannel channel = ManagedChannelBuilder.forTarget(target)
+                // Channels are secure by default (via SSL/TLS). For the example we disable TLS to avoid
+                // needing certificates.
+                .usePlaintext()
+                .build();
+
+        return ConnectServiceGrpc.newBlockingStub(channel);
+    }
+
+    @Bean
+    public Executor taskExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(2);
+        executor.setMaxPoolSize(2);
+        executor.setQueueCapacity(500);
+        executor.setThreadNamePrefix("MessageAsync-");
+        executor.initialize();
+        return executor;
+    }
 }

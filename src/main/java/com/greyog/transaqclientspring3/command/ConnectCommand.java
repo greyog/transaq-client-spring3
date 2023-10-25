@@ -1,8 +1,5 @@
 package com.greyog.transaqclientspring3.command;
 
-import lombok.Builder;
-import lombok.Data;
-
 import jakarta.xml.bind.annotation.*;
 
 @XmlRootElement(name = "command")
