@@ -1,8 +1,9 @@
-package com.greyog.transaqclientspring3.component;
+package com.greyog.transaqclientspring3.service;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import transaqConnector.Connect;
 import transaqConnector.ConnectServiceGrpc;
@@ -12,13 +13,13 @@ import java.util.Iterator;
 
 @Slf4j
 @Component
-public class MessageProcessor implements Runnable {
+public class MessageProcessorService {
 
     @Autowired
     private ConnectServiceGrpc.ConnectServiceBlockingStub blockingStub;
 
     @SneakyThrows
-    @Override
+    @Async
     public void run() {
         Connect.DataRequest dataRequest = Connect.DataRequest.newBuilder()
                 .build();

@@ -3,12 +3,10 @@ package com.greyog.transaqclientspring3.service;
 import com.greyog.transaqclientspring3.command.ConnectCommand;
 import com.greyog.transaqclientspring3.command.DisconnectCommand;
 import com.greyog.transaqclientspring3.command.ServerStatusCommand;
-import com.greyog.transaqclientspring3.component.MessageProcessor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.task.TaskExecutor;
-import org.springframework.oxm.Marshaller;
+import org.springframework.core.env.Environment;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Service;
 import transaqConnector.Connect;
@@ -34,12 +32,15 @@ public class ConnectService {
     private Executor taskExecutor;
 
     @Autowired
-    private MessageProcessor messageProcessor;
+    private MessageProcessorService messageProcessorService;
+
+    @Autowired
+    private Environment environment;
 
     public String getLoginCommand() {
         var connectCommand = new ConnectCommand();
-        connectCommand.login = "login_here";
-        connectCommand.password = "password_here";
+        connectCommand.login = environment.getProperty("transaq.login");
+        connectCommand.password = environment.getProperty("transaq.password");
         connectCommand.host = "tr1.finam.ru";
         connectCommand.port = 3900;
         connectCommand.rqdelay = 100;
@@ -89,8 +90,8 @@ public class ConnectService {
         return getXMLCommand(new ServerStatusCommand());
     }
 
-    public String initDataFetch() throws Exception {
-        taskExecutor.execute(messageProcessor);
+    public String initDataFetch() {
+        messageProcessorService.run();
         return "Started processing of messages...";
     }
 }
