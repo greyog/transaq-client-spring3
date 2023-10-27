@@ -19,7 +19,8 @@ public class MyConfigClass {
     public Jaxb2Marshaller marshaller() {
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
         // marshaller.setContextPath(<jaxb.context-file>)
-         marshaller.setPackagesToScan("com.greyog.transaqclientspring3.command");
+         marshaller.setPackagesToScan("com.greyog.transaqclientspring3.command",
+                 "com.greyog.transaqclientspring3.message");
 
         marshaller.setMarshallerProperties(new HashMap<>() {{
             put(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, true);

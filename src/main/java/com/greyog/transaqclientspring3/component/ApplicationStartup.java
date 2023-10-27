@@ -22,8 +22,8 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
     @SneakyThrows
     @Override
     public void onApplicationEvent(final ApplicationReadyEvent event) {
-        log.info(connectService.initDataFetch());
-        log.info(connectService.getLoginResult());
+        log.info("Init data fetch result: {}", connectService.initDataFetch());
+        log.info("Login result: {}", connectService.getLoginResult());
 
 //        while (true) {
 //            log.info(connectService.getServerStatus());

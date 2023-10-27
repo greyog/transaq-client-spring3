@@ -10,7 +10,7 @@ group = 'com.greyog'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '17'
+	sourceCompatibility = "17.PREVIEW"
 }
 
 configurations {

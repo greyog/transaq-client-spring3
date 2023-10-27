@@ -1,21 +1,27 @@
 package com.greyog.transaqclientspring3.message;
 
-import com.example.util.OptionCodeParser;
-import com.example.util.OptionType;
+import com.greyog.transaqclientspring3.component.OptionCodeParser;
+import com.greyog.transaqclientspring3.entity.OptionType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import lombok.Getter;
 
 @XmlRootElement
 public class MyFortsPosition {
+    @Getter
     @XmlElement
     private FortsPosition fortsPosition;
     @XmlElement
     private double startPrice = 0;
 
+    @Getter
     private String assetCode;
     private boolean isWeekOption;
+    @Getter
     private OptionType optionType;
+    @Getter
     private String futuresCode;
+    @Getter
     private int strike;
 
     public MyFortsPosition(){};
@@ -25,16 +31,8 @@ public class MyFortsPosition {
         OptionCodeParser.parseFortsPosition(this);
     }
 
-    public FortsPosition getFortsPosition() {
-        return fortsPosition;
-    }
-
     public void setAssetCode(String assetCode) {
         this.assetCode = assetCode;
-    }
-
-    public String getAssetCode() {
-        return assetCode;
     }
 
     public void setIsWeekOption(boolean isWeekOption) {
@@ -55,23 +53,12 @@ public class MyFortsPosition {
         }
     }
 
-    public OptionType getOptionType() {
-        return optionType;
-    }
-
     public void setFuturesCode(String futuresCode) {
         this.futuresCode = futuresCode;
-    }
-
-    public String getFuturesCode() {
-        return futuresCode;
     }
 
     public void setStrike(int strike) {
         this.strike = strike;
     }
 
-    public int getStrike() {
-        return strike;
-    }
 }
