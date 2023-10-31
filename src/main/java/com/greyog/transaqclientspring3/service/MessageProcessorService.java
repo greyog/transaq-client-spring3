@@ -1,6 +1,9 @@
 package com.greyog.transaqclientspring3.service;
 
-import com.greyog.transaqclientspring3.message.Client;
+import com.greyog.transaqclientspring3.component.CustomSpringEventPublisher;
+import com.greyog.transaqclientspring3.component.Server;
+import com.greyog.transaqclientspring3.entity.message.Loggable;
+import com.greyog.transaqclientspring3.entity.message.ServerStatus;
 import jakarta.xml.bind.JAXBException;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +16,6 @@ import transaqConnector.ConnectServiceGrpc;
 
 
 import java.io.StringReader;
-import java.util.Iterator;
 
 @Slf4j
 @Component
@@ -24,6 +26,9 @@ public class MessageProcessorService {
 
     @Autowired
     private Jaxb2Marshaller marshaller;
+
+    @Autowired
+    private CustomSpringEventPublisher eventPublisher;
 
     @SneakyThrows
     @Async
@@ -47,7 +52,12 @@ public class MessageProcessorService {
     }
 
     private void processObject(Object object) {
-        log.info(object.toString());
+        if (object instanceof Loggable) {
+            ((Loggable) object).log();
+        }
+        if (object instanceof ServerStatus serverStatus) {
+            eventPublisher.publishServerStatusEvent(serverStatus.connected ? "ok" : "no");
+        }
     }
 
 }

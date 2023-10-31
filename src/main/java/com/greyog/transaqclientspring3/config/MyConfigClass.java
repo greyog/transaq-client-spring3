@@ -1,5 +1,6 @@
 package com.greyog.transaqclientspring3.config;
 
+import com.greyog.transaqclientspring3.entity.message.ServerStatus;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.springframework.context.annotation.Bean;
@@ -19,8 +20,8 @@ public class MyConfigClass {
     public Jaxb2Marshaller marshaller() {
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
         // marshaller.setContextPath(<jaxb.context-file>)
-         marshaller.setPackagesToScan("com.greyog.transaqclientspring3.command",
-                 "com.greyog.transaqclientspring3.message");
+         marshaller.setPackagesToScan("com.greyog.transaqclientspring3.entity.command",
+                 "com.greyog.transaqclientspring3.entity.message");
 
         marshaller.setMarshallerProperties(new HashMap<>() {{
             put(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -56,4 +57,5 @@ public class MyConfigClass {
         executor.initialize();
         return executor;
     }
+
 }

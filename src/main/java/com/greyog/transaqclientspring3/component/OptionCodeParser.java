@@ -1,6 +1,6 @@
 package com.greyog.transaqclientspring3.component;
 
-import com.greyog.transaqclientspring3.message.MyFortsPosition;
+import com.greyog.transaqclientspring3.entity.message.MyFortsPosition;
 
 import java.util.List;
 

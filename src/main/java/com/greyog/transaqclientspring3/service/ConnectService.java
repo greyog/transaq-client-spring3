@@ -1,8 +1,8 @@
 package com.greyog.transaqclientspring3.service;
 
-import com.greyog.transaqclientspring3.command.ConnectCommand;
-import com.greyog.transaqclientspring3.command.DisconnectCommand;
-import com.greyog.transaqclientspring3.command.ServerStatusCommand;
+import com.greyog.transaqclientspring3.entity.command.ConnectCommand;
+import com.greyog.transaqclientspring3.entity.command.DisconnectCommand;
+import com.greyog.transaqclientspring3.entity.command.ServerStatusCommand;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +50,7 @@ public class ConnectService {
     }
 
     @SneakyThrows
-    private <T> String getXMLCommand(final T command) {
+    public  <T> String getXMLCommand(final T command) {
         StringWriter sw = new StringWriter();
         Result result = new StreamResult(sw);
         marshaller.marshal(command, result);
@@ -64,14 +64,20 @@ public class ConnectService {
         return requestResult;
     }
 
-    private String getRequestResult(String command) {
-        Connect.SendCommandRequest request = Connect.SendCommandRequest.newBuilder()
-                .setMessage(command)
+    public String getRequestResult(String xmlCommand) {
+        var request = Connect.SendCommandRequest.newBuilder()
+                .setMessage(xmlCommand)
                 .build();
-        Connect.SendCommandResponse response = blockingStub.sendCommand(request);
+        var response = blockingStub.sendCommand(request);
         String r = new String(response.toByteArray(), StandardCharsets.UTF_8);
-        log.info("response: {}", response);
-        return "r";
+        log.info("""
+            Request: {};
+            Result: {}""", request, response.getMessage());
+        return response.getMessage();
+    }
+
+    public <T> String sendCommand(final T command) {
+        return getRequestResult(getXMLCommand(command));
     }
 
     public String getDisconnectCommand() {
