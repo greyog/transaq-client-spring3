@@ -1,9 +1,7 @@
 package com.greyog.transaqclientspring3.service;
 
-import com.greyog.transaqclientspring3.component.CustomSpringEventPublisher;
 import com.greyog.transaqclientspring3.component.Server;
-import com.greyog.transaqclientspring3.entity.message.Loggable;
-import com.greyog.transaqclientspring3.entity.message.ServerStatus;
+import com.greyog.transaqclientspring3.entity.message.*;
 import jakarta.xml.bind.JAXBException;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +26,7 @@ public class MessageProcessorService {
     private Jaxb2Marshaller marshaller;
 
     @Autowired
-    private CustomSpringEventPublisher eventPublisher;
+    private Server server;
 
     @SneakyThrows
     @Async
@@ -41,22 +39,31 @@ public class MessageProcessorService {
                     var reader = new StringReader(message);
                     try {
                         var obj = unmarshaller.unmarshal(reader);
-//                        log.info("Processed massage for type: {}", obj.getClass());
-                        processObject(obj);
+                        processObject(obj, message);
                     } catch (JAXBException e) {
                         log.error("Couldn't parse message: {}", message);
 //                        log.error("Exception message: ", e);
                     }
                 }
         );
+        log.info("MessageProcessorService finished");
     }
 
-    private void processObject(Object object) {
+    private void processObject(Object object, String message) {
+        if (!(object instanceof Pits) &&
+                !(object instanceof SecInfoUpd) &&
+                !(object instanceof Securities)) {
+            log.info("Processed massage for type: {}", object.getClass());
+        }
         if (object instanceof Loggable) {
-            ((Loggable) object).log();
+            log.info(message);
+            log.info(object.toString());
         }
         if (object instanceof ServerStatus serverStatus) {
-            eventPublisher.publishServerStatusEvent(serverStatus.connected ? "ok" : "no");
+            server.setServerStatus(serverStatus);
+        }
+        if (object instanceof Client client) {
+            server.addClientInfo(client);
         }
     }
 

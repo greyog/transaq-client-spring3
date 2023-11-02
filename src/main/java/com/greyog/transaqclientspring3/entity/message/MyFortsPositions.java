@@ -39,8 +39,4 @@ public class MyFortsPositions implements Loggable{
                 + '}';
     }
 
-    @Override
-    public void log() {
-        log.info(this.toString());
-    }
 }

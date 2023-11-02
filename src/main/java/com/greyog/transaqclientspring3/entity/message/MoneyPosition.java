@@ -24,8 +24,4 @@ public class MoneyPosition implements Loggable{
     public BigDecimal ordbuycond;
     public BigDecimal comission;
 
-    @Override
-    public void log() {
-        log.info(this.toString());
-    }
 }

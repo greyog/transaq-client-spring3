@@ -28,8 +28,4 @@ public class ServerStatus implements Loggable{
         connected = isConnected;
     }
 
-    @Override
-    public void log() {
-        log.info(this.toString());
-    }
 }

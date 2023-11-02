@@ -4,17 +4,23 @@ import jakarta.xml.bind.annotation.*;
 
 @XmlRootElement(name = "command")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ConnectCommand {
+public class ConnectCommand extends AbstractCommand{
     public String login;
     public String password;
     public String host;
-    public int port;
-    public int rqdelay;
-    public int session_timeout;
-    public int request_timeout;
-    @XmlAttribute
-    public String id = "connect";
+    public Integer port;
+    public Integer rqdelay;
+    public Integer session_timeout;
+    public Integer request_timeout;
+//    @XmlAttribute
+//    public String id = "connect";
     public String text;
+    public Integer push_u_limits;
+    public Boolean autopos;
+
+    public ConnectCommand() {
+        super("connect");
+    }
 }
 //    "<command id=\"connect\">" +
 //            "<login>" + login + "</login>" +

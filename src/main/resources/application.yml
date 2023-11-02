@@ -4,5 +4,6 @@ spring:
 transaq:
   login: ${TRANSAQ_LOGIN}
   password: ${TRANSAQ_PASSWORD}
+  newPassword: ${TRANSAQ_NEW_PASSWORD}
   host: ${TRANSAQ_HOST}
   port: ${TRANSAQ_PORT}

@@ -5,7 +5,11 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.ApplicationEventMulticaster;
+import org.springframework.context.event.SimpleApplicationEventMulticaster;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import transaqConnector.Connect;
 import transaqConnector.ConnectServiceGrpc;
@@ -14,6 +18,7 @@ import java.util.HashMap;
 import java.util.concurrent.Executor;
 
 @Configuration
+@EnableScheduling
 public class MyConfigClass {
 
     @Bean
@@ -56,6 +61,15 @@ public class MyConfigClass {
         executor.setThreadNamePrefix("MessageAsync-");
         executor.initialize();
         return executor;
+    }
+
+    @Bean(name = "applicationEventMulticaster")
+    public ApplicationEventMulticaster simpleApplicationEventMulticaster() {
+        SimpleApplicationEventMulticaster eventMulticaster =
+                new SimpleApplicationEventMulticaster();
+
+        eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor());
+        return eventMulticaster;
     }
 
 }

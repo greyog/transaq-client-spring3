@@ -31,8 +31,4 @@ public class FortsPosition  implements Loggable {
         return totalnet;
     }
 
-    @Override
-    public void log() {
-        log.info(this.toString());
-    }
 }

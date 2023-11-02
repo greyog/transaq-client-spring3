@@ -25,11 +25,6 @@ public class Positions implements Loggable {
     public MoneyPosition moneyPosition;
 
     @Override
-    public void log() {
-        log.info(this.toString());
-    }
-
-    @Override
     public String toString() {
         return "Positions: fortsPosition=%s, fortsMoney=%s, secPositions=%s, moneyPositions=%s"
                 .formatted(fortsPosition.toString(),

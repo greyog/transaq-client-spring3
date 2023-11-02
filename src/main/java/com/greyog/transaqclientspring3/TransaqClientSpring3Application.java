@@ -1,5 +1,6 @@
 package com.greyog.transaqclientspring3;
 
+import com.greyog.transaqclientspring3.entity.command.DisconnectCommand;
 import com.greyog.transaqclientspring3.service.ConnectService;
 import com.vaadin.flow.theme.Theme;
 import jakarta.annotation.PreDestroy;
@@ -22,7 +23,7 @@ public class TransaqClientSpring3Application {
 	@PreDestroy
 	public void onExit(){
 		log.info("########### Disconnect and exit #############");
-		String result = connectService.getDisconnectResult();
+		String result = connectService.sendCommand(new DisconnectCommand());
 		try {
 			Thread.sleep(2 * 1000);
 		} catch (InterruptedException e) {

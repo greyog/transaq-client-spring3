@@ -17,8 +17,4 @@ public class FortsMoney implements Loggable {
     public double current;
     public double free;
 
-    @Override
-    public void log() {
-        log.info(this.toString());
-    }
 }

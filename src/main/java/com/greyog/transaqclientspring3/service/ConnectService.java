@@ -1,5 +1,6 @@
 package com.greyog.transaqclientspring3.service;
 
+import com.greyog.transaqclientspring3.entity.command.AbstractCommand;
 import com.greyog.transaqclientspring3.entity.command.ConnectCommand;
 import com.greyog.transaqclientspring3.entity.command.DisconnectCommand;
 import com.greyog.transaqclientspring3.entity.command.ServerStatusCommand;
@@ -28,41 +29,35 @@ public class ConnectService {
     @Autowired
     private Jaxb2Marshaller marshaller;
 
-    @Autowired
-    private Executor taskExecutor;
 
-    @Autowired
-    private MessageProcessorService messageProcessorService;
-
-    @Autowired
-    private Environment environment;
-
-    public String getLoginCommand() {
-        var connectCommand = new ConnectCommand();
-        connectCommand.login = environment.getProperty("transaq.login");
-        connectCommand.password = environment.getProperty("transaq.password");
-        connectCommand.host = environment.getProperty("transaq.host");
-        connectCommand.port = Integer.parseInt(environment.getProperty("transaq.port"));
-        connectCommand.rqdelay = 100;
-        connectCommand.session_timeout = 1000;
-        connectCommand.request_timeout = 1000;
-        return getXMLCommand(connectCommand);
-    }
+//    private String getLoginCommand() {
+//        var connectCommand = new ConnectCommand();
+//        connectCommand.login = environment.getProperty("transaq.login");
+//        connectCommand.password = environment.getProperty("transaq.password");
+//        connectCommand.host = environment.getProperty("transaq.host");
+//        connectCommand.port = Integer.parseInt(environment.getProperty("transaq.port"));
+//        connectCommand.rqdelay = 100;
+//        connectCommand.session_timeout = 1000;
+//        connectCommand.request_timeout = 20;
+////        connectCommand.push_u_limits = 20;
+//        connectCommand.autopos = true;
+//        return getXMLCommand(connectCommand);
+//    }
 
     @SneakyThrows
-    public  <T> String getXMLCommand(final T command) {
+    public  <T extends AbstractCommand> String getXMLCommand(final T command) {
         StringWriter sw = new StringWriter();
         Result result = new StreamResult(sw);
         marshaller.marshal(command, result);
-        log.info("marshall result: {}", sw);
+//        log.info("marshall result: {}", sw);
         return sw.toString();
     }
 
-    public String getLoginResult() {
-        String command = getLoginCommand();
-        String requestResult = getRequestResult(command);
-        return requestResult;
-    }
+//    public String getLoginResult() {
+//        String command = getLoginCommand();
+//        String requestResult = getRequestResult(command);
+//        return requestResult;
+//    }
 
     public String getRequestResult(String xmlCommand) {
         var request = Connect.SendCommandRequest.newBuilder()
@@ -76,28 +71,28 @@ public class ConnectService {
         return response.getMessage();
     }
 
-    public <T> String sendCommand(final T command) {
+    public <T extends AbstractCommand> String sendCommand(final T command) {
         return getRequestResult(getXMLCommand(command));
     }
 
-    public String getDisconnectCommand() {
-        return getXMLCommand(new DisconnectCommand());
-    }
+//    public String getDisconnectCommand() {
+//        return getXMLCommand(new DisconnectCommand());
+//    }
+//
+//    public String getDisconnectResult() {
+//        return getRequestResult(getDisconnectCommand());
+//    }
+//
+//    public String getServerStatus() {
+//        return getRequestResult(getServerStatusCommand());
+//    }
+//
+//    private String getServerStatusCommand() {
+//        return getXMLCommand(new ServerStatusCommand());
+//    }
 
-    public String getDisconnectResult() {
-        return getRequestResult(getDisconnectCommand());
-    }
-
-    public String getServerStatus() {
-        return getRequestResult(getServerStatusCommand());
-    }
-
-    private String getServerStatusCommand() {
-        return getXMLCommand(new ServerStatusCommand());
-    }
-
-    public String initDataFetch() {
-        messageProcessorService.run();
-        return "Started processing of messages...";
-    }
+//    public String initDataFetch() {
+//        messageProcessorService.run();
+//        return "Started processing of messages...";
+//    }
 }
