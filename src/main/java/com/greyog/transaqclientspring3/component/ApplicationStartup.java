@@ -27,7 +27,8 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
     private Environment environment;
     @Autowired
     private MessageProcessorService messageProcessorService;
-
+    @Autowired
+    private Server server;
 
     /**
      * This event is executed as late as conceivably possible to indicate that
@@ -45,7 +46,7 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
         connectCommand.rqdelay = 100;
         connectCommand.session_timeout = 1000;
         connectCommand.request_timeout = 20;
-//        connectCommand.push_u_limits = 20;
+        connectCommand.push_u_limits = 30;
         connectCommand.autopos = true;
         connectService.sendCommand(connectCommand);
 
@@ -55,16 +56,28 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
 //        }
     }
 
+    private int order = 0;
+
     @Override
     @Async
-    @Scheduled(fixedRate = 10000, initialDelay = 20000)
+    @Scheduled(fixedRate = 10000)
     public void heartBeat() {
+        if (!server.isConnected()) return;
 //        var changePasswordCommand = new ChangePasswordCommand();
 //        changePasswordCommand.oldpass = environment.getProperty("transaq.password");
 //        changePasswordCommand.newpass = environment.getProperty("transaq.newPassword");
 //        log.info(changePasswordCommand.toString());
-        connectService.sendCommand(new ServerStatusCommand());
-//       todo Result: <result success="false"><message>Cannot process this command without connection.</message></result>
+        switch (order) {
+            case 0 -> {
+                connectService.sendCommand(new ServerStatusCommand());
+                order++;
+            }
+            case 1 -> {
+                connectService.sendCommand(new ServerStatusCommand());
+                order++;
+            }
+        }
+//       todo relogin on Result: <result success="false"><message>Cannot process this command without connection.</message></result>
     }
 
 

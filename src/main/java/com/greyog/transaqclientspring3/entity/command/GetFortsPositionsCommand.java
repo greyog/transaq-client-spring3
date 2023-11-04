@@ -7,8 +7,7 @@ import lombok.Data;
 @XmlRootElement(name = "command")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GetFortsPositionsCommand extends AbstractCommand{
-//    @XmlAttribute
-//    final String id = "get_forts_positions";
+
     @XmlAttribute
     public String client;
 

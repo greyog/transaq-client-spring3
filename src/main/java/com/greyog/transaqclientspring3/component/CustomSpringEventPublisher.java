@@ -14,7 +14,6 @@ public class CustomSpringEventPublisher {
     private ApplicationEventPublisher applicationEventPublisher;
 
     public void publishServerStatusEvent(final String message) {
-        log.info("Publishing custom event. ");
         ServerStatusEvent serverStatusEvent = new ServerStatusEvent(this, message);
         applicationEventPublisher.publishEvent(serverStatusEvent);
     }

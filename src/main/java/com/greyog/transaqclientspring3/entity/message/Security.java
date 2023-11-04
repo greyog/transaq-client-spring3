@@ -1,9 +1,11 @@
 package com.greyog.transaqclientspring3.entity.message;
 
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.*;
+import lombok.NoArgsConstructor;
 
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+@NoArgsConstructor
 public class Security {
     public String sec_tz;
     public String seccode;
@@ -11,18 +13,23 @@ public class Security {
     public String currency;
     public String board;
     public String shortname;
-    public int decimals;
-    public int market;
+    public Integer decimals;
+    public Integer market;
     public String sectype;
     public Opmask opmask;
-    public double minstep;
-    public int lotsize;
-    public int lotdivider;
-    public int point_cost;
-    public int quotestype;
+    public Double minstep;
+    public Integer lotsize;
+    public Integer lotdivider;
+    public Integer poInteger_cost;
+    public Integer quotestype;
     @XmlAttribute
-    public int secid;
+    public Integer secid;
     @XmlAttribute
-    public boolean active;
+    public Boolean active;
     public String text;
+
+    public Security(String seccode, String board) {
+        this.seccode = seccode;
+        this.board = board;
+    }
 }
