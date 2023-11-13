@@ -1,8 +1,10 @@
 package com.greyog.transaqclientspring3.config;
 
+import com.greyog.transaqclientspring3.controller.DynamicContentServlet;
 import com.greyog.transaqclientspring3.entity.message.ServerStatus;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ApplicationEventMulticaster;
@@ -70,6 +72,14 @@ public class MyConfigClass {
 
         eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor());
         return eventMulticaster;
+    }
+
+    @Bean
+    public ServletRegistrationBean exampleServletBean() {
+        ServletRegistrationBean bean = new ServletRegistrationBean(
+                new DynamicContentServlet(), "/image");
+        bean.setLoadOnStartup(1);
+        return bean;
     }
 
 }

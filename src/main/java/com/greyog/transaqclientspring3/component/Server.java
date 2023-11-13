@@ -1,7 +1,10 @@
 package com.greyog.transaqclientspring3.component;
 
+import com.greyog.transaqclientspring3.entity.MyEventType;
 import com.greyog.transaqclientspring3.entity.message.Client;
+import com.greyog.transaqclientspring3.entity.message.Positions;
 import com.greyog.transaqclientspring3.entity.message.ServerStatus;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +15,8 @@ import java.util.List;
 public class Server {
 
     private ServerStatus serverStatus;
+    @Getter
+    private Positions positions = new Positions();
 
     @Autowired
     private CustomSpringEventPublisher eventPublisher;
@@ -21,7 +26,9 @@ public class Server {
 
     public void setServerStatus(ServerStatus serverStatus) {
         this.serverStatus = serverStatus;
-        eventPublisher.publishServerStatusEvent(serverStatus.connected && fortsId != null? "ok" : "no");
+        if (serverStatus.connected && fortsId != null) {
+            eventPublisher.publishServerStatusEvent(MyEventType.SERVER_CLIENT_OK);
+        }
 //        eventPublisher.publishServerStatusEvent(serverStatus.connected ? "connected" : "no");
     }
 
@@ -40,13 +47,8 @@ public class Server {
         return serverStatus != null && serverStatus.connected;
     }
 
-//    public void setServerStatus(ServerStatus serverStatus) {
-//        this.serverStatus = serverStatus;
-//        if (serverStatus.connected) {
-//            var result = connectService.sendCommand(new GetFortsPositionCommand());
-//        }
-//    }
-
-//    @Autowired
-//    private ConnectService connectService;
+    public void setPositions(Positions positions) {
+        this.positions = positions;
+        eventPublisher.publishServerStatusEvent(MyEventType.POSITIONS);
+    }
 }

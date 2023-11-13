@@ -24,16 +24,17 @@ public class ServerStatusEventListener {
 
     @EventListener
     public void onApplicationEvent(ServerStatusEvent event) {
-        log.info("Received spring custom event - " + event.getMessage());
-        switch (event.getMessage()) {
-            case "ok" -> {
+        log.info("Received spring custom event - " + event.getEventType());
+        switch (event.getEventType()) {
+            case SERVER_CLIENT_OK -> {
                 var getFortsPositionCommand = new GetFortsPositionsCommand();
                 getFortsPositionCommand.client = server.getFortsClient();
                 connectService.sendCommand(getFortsPositionCommand);
-
-                connectService.sendCommand(new GetMarketsCommand());
             }
-            case "connected" -> {
+            case POSITIONS -> {
+                log.info("Positions event: " + server.getPositions());
+            }
+            case CONNECTED -> {
                 var changePasswordCommand = new ChangePasswordCommand(
                         environment.getProperty("TRANSAQ_PASSWORD"),
                         environment.getProperty("TRANSAQ_NEW_PASSWORD")

@@ -1,16 +1,17 @@
 package com.greyog.transaqclientspring3.entity.event;
 
+import com.greyog.transaqclientspring3.entity.MyEventType;
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 
+@Getter
 public class ServerStatusEvent extends ApplicationEvent {
 
-    @Getter
-    private String message;
+    private final MyEventType eventType;
 
-    public ServerStatusEvent(Object source, String message) {
+    public ServerStatusEvent(Object source, MyEventType eventType) {
         super(source);
-        this.message = message;
+        this.eventType = eventType;
     }
 
 }

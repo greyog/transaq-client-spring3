@@ -1,32 +1,35 @@
 package com.greyog.transaqclientspring3.view.main;
 
+
+import com.greyog.transaqclientspring3.component.Server;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @PageTitle("Main")
 @Route(value = "")
 public class MainView extends HorizontalLayout {
 
-    private TextField name;
-    private Button sayHello;
+    @Autowired
+    private Server server;
 
     public MainView() {
-        name = new TextField("Your name");
-        sayHello = new Button("Say hello");
-        sayHello.addClickListener(e -> {
-            Notification.show("Hello " + name.getValue());
+        var data = new TextField("Your name");
+        var button = new Button("Refresh");
+        button.addClickListener(e -> {
+            data.setValue(server.getPositions().toString());
         });
-        sayHello.addClickShortcut(Key.ENTER);
+        button.addClickShortcut(Key.ENTER);
 
         setMargin(true);
-        setVerticalComponentAlignment(Alignment.END, name, sayHello);
+        setVerticalComponentAlignment(Alignment.END, data, button);
 
-        add(name, sayHello);
+        add(data, button);
+
     }
 
 }
