@@ -2,6 +2,8 @@ package com.greyog.transaqclientspring3;
 
 import com.greyog.transaqclientspring3.entity.command.DisconnectCommand;
 import com.greyog.transaqclientspring3.service.ConnectService;
+import com.vaadin.flow.component.page.AppShellConfigurator;
+import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.theme.Theme;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +14,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @Slf4j
 @SpringBootApplication
 @EnableAsync
-public class TransaqClientSpring3Application {
+@Push
+public class TransaqClientSpring3Application implements AppShellConfigurator {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TransaqClientSpring3Application.class, args);

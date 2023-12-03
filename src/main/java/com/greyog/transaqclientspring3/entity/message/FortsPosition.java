@@ -1,12 +1,14 @@
 package com.greyog.transaqclientspring3.entity.message;
 
 import jakarta.xml.bind.annotation.XmlRootElement;
+import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ToString
 @XmlRootElement(name = "forts_position")
+@Getter
 public class FortsPosition  implements Loggable {
     public String client;
     public int secid;
@@ -22,13 +24,5 @@ public class FortsPosition  implements Loggable {
     public double optmargin;
     public double varmargin;
     public int expirationpos;
-
-    public String getSecCode() {
-        return seccode;
-    }
-
-    public int getTotalNet() {
-        return totalnet;
-    }
 
 }

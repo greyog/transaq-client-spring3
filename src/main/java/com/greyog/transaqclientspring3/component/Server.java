@@ -29,7 +29,6 @@ public class Server {
         if (serverStatus.connected && fortsId != null) {
             eventPublisher.publishServerStatusEvent(MyEventType.SERVER_CLIENT_OK);
         }
-//        eventPublisher.publishServerStatusEvent(serverStatus.connected ? "connected" : "no");
     }
 
     public void addClientInfo(Client client) {

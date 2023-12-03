@@ -15,7 +15,7 @@ public class DataServiceImpl implements DataService {
     private Server server;
 
     @Override
-    public List<FortsPosition> getFortsPositions() {
+    public List<FortsPosition> getAllFortsPositions() {
         return server.getPositions().fortsPosition;
     }
 

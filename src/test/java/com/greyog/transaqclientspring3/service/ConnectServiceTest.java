@@ -14,18 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.Socket;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {MyConfigClass.class , ConnectService.class})
+@SpringBootTest(classes = {MyConfigClass.class , ConnectServiceImpl.class})
 class ConnectServiceTest {
 
     Logger logger = LoggerFactory.getLogger(ConnectServiceTest.class);

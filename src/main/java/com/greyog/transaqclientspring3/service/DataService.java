@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface DataService {
 
-    List<FortsPosition> getFortsPositions();
+    List<FortsPosition> getAllFortsPositions();
     FortsPosition getFortsPositionBySecCode(String secCode);
     List<FortsPosition> getFortsPositionsByBaseSecCode(String baseSecCode);
 

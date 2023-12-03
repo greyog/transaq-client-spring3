@@ -49,11 +49,6 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
         connectCommand.push_u_limits = 30;
         connectCommand.autopos = true;
         connectService.sendCommand(connectCommand);
-
-//        while (true) {
-//            log.info(connectService.getServerStatus());
-//            Thread.sleep(1000);
-//        }
     }
 
     private int order = 0;
@@ -67,16 +62,9 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
 //        changePasswordCommand.oldpass = environment.getProperty("transaq.password");
 //        changePasswordCommand.newpass = environment.getProperty("transaq.newPassword");
 //        log.info(changePasswordCommand.toString());
-        switch (order) {
-            case 0 -> {
-                connectService.sendCommand(new ServerStatusCommand());
-                order++;
-            }
-            case 1 -> {
-                connectService.sendCommand(new ServerStatusCommand());
-                order++;
-            }
-        }
+
+        connectService.sendCommand(new ServerStatusCommand());
+
 //       todo relogin on Result: <result success="false"><message>Cannot process this command without connection.</message></result>
     }
 
